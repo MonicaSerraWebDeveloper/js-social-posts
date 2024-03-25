@@ -82,30 +82,54 @@ const addedLikes = []
 
 likeButton.forEach((liked, index) => {
     liked.addEventListener('click', function(event) {
+
+        // 3. Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.
         
-        // Aggiungiamo la classe al pulsante per renderlo verde
-        liked.classList.add('like-button--liked')
+        // Aggiungiamo l'id di tipo numero all'interno dell'array stabilendo che l'id va aggiunto dentro l'array "addedLikes" solo se non è stato aggiunto in precedenza a questa condizione gli uniamo l'incremento del counter e la classe che rende il pulsante colorato di verde
+        if (!addedLikes.includes(parseInt(liked.dataset.postid))) {
 
-        // Salviamo in una variabile il div <b> che ha che segna il numero dei like
-        const startingLike = counterLikes[index]
-        // Salviamo in una variabile let il numero dentro il tag e lo convertiamo in numero per poter fare l'incremento
-        let increaseLikes = parseInt(startingLike.innerHTML)
+            addedLikes.push(parseInt(liked.dataset.postid))
 
-        //Ad ogni click incrementiamo il numero dei like partendo dal numero di base
-        increaseLikes++
+            // Aggiungiamo la classe al pulsante per renderlo verde
+            liked.classList.add('like-button--liked')
 
-        // Appendiamo il numero incrementato dentro l'innerHTML e aggiornarlo
-        startingLike.innerHTML = increaseLikes++
+            // Salviamo in una variabile il div <b> che ha che segna il numero dei like
+            const startingLike = counterLikes[index]
 
-        // Aggiungiamo l'id di tipo numero all'interno dell'array
-        addedLikes.push(parseInt(liked.dataset.postid))
-        
-        // Evitiamo che ad ogni click sul div "mi piace" riporti la pagina alla vw = 0
-        event.preventDefault()
+            // Salviamo in una variabile let il numero dentro il tag e lo convertiamo in numero per poter fare l'incremento
+            let increaseLikes = parseInt(startingLike.innerHTML)
+
+            //Ad ogni click incrementiamo il numero dei like partendo dal numero di base
+            increaseLikes++
+
+            // Appendiamo il numero incrementato dentro l'innerHTML e aggiornarlo
+            startingLike.innerHTML = increaseLikes++
+
+             // Evitiamo che ad ogni click sul div "mi piace" riporti la pagina alla vw = 0
+            event.preventDefault()
+
+        } else {
+
+            // Aggiunta la variabile "indexOf" per stabilite quale elemento togliere dall'Array successivamente
+            let idToRemove = addedLikes.indexOf(parseInt(liked.dataset.postid))
+            // Con splice possiamo stabilire che l'elemento da rimuovere è dinamico e in base all'indexOf che è stato aggiunto in precedenza e con il secondo numero gli diciamo quanti elementi rimuovere
+            addedLikes.splice(idToRemove, 1)
+
+            liked.classList.remove('like-button--liked')
+
+            const startingLike = counterLikes[index]
+
+            let decresedLikes = parseInt(startingLike.innerHTML)
+
+            decresedLikes--
+
+            startingLike.innerHTML = decresedLikes--
+
+            event.preventDefault()
+
+        }
     })
 });
-
-
 
 // Creiamo una funzione che generi il single post e lo appenda nel DOM
 
@@ -124,7 +148,6 @@ function generateListOfPostsInDOM (infoPost) {
     const nameArray = author.name.split(' ')
     const [name, lastName] = nameArray
     const initialNameAuthors = `${name[0]}${lastName[0]}`
-    console.log(initialNameAuthors);
 
     let singlePost = `
     <div class="post">
