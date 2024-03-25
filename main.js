@@ -68,7 +68,7 @@ const postContainer = document.querySelector('#container');
 
 // Creiamo un ciclo per appendere tanti post quanti ne sono presenti nell'array "posts"
 posts.forEach((posts, index) => {
-    generateListOfPostsInDOM ()
+    generateListOfPostsInDOM (posts)
    
 });
 
@@ -80,23 +80,26 @@ posts.forEach((posts, index) => {
 // Creiamo una funzione che generi il single post e lo appenda nel DOM
 // FUNCTIONS
 
-function generateListOfPostsInDOM () {
+function generateListOfPostsInDOM (infoPost) {
+
+    const {id, content, media, author, likes, created} = infoPost
+
     let singlePost = `
     <div class="post">
             <div class="post__header">
                 <div class="post-meta">                    
                     <div class="post-meta__icon">
-                        <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
+                        <img class="profile-pic" src="${author.image}" alt="Phil Mangione">                    
                     </div>
                     <div class="post-meta__data">
-                        <div class="post-meta__author">Phil Mangione</div>
-                        <div class="post-meta__time">4 mesi fa</div>
+                        <div class="post-meta__author">${author.name}</div>
+                        <div class="post-meta__time">${created}</div>
                     </div>                    
                 </div>
             </div>
-            <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
+            <div class="post__text">${content}</div>
             <div class="post__image">
-                <img src="https://unsplash.it/600/300?image=171" alt="">
+                <img src="${media}" alt="">
             </div>
             <div class="post__footer">
                 <div class="likes js-likes">
@@ -107,7 +110,7 @@ function generateListOfPostsInDOM () {
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">80</b> persone
+                        Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
                     </div>
                 </div> 
             </div>            
