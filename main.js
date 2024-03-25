@@ -78,9 +78,13 @@ posts.forEach((posts, index) => {
 const likeButton = document.querySelectorAll('.js-like-button')
 const counterLikes = document.querySelectorAll('.js-likes-counter')
 
+const addedLikes = []
+
 likeButton.forEach((liked, index) => {
     liked.addEventListener('click', function(event) {
         
+        console.log(liked.dataset.postid);
+
         liked.classList.add('like-button--liked')
 
         const startingLike = counterLikes[index]
@@ -91,9 +95,12 @@ likeButton.forEach((liked, index) => {
 
         startingLike.innerHTML = increaseLikes++
 
+        addedLikes.push(parseInt(liked.dataset.postid))
+        
         event.preventDefault()
     })
 });
+
 
 
 // Creiamo una funzione che generi il single post e lo appenda nel DOM
@@ -124,13 +131,13 @@ function generateListOfPostsInDOM (infoPost) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="1">
+                        <a class="like-button  js-like-button" href="#" data-postid="${id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
+                        Piace a <b id="like-counter-${id}" class="js-likes-counter">${likes}</b> persone
                     </div>
                 </div> 
             </div>            
