@@ -59,9 +59,9 @@ const posts = [
 
 // Milestone 1 - Prendendo come riferimento il layout di esempio presente nell'html, stampiamo i post del nostro feed.
 
-// Milestone 2 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
-// Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
+// Prendiamo il template costruito nell'html e lo appendiamo tramite template literal per ogni elemento presente nell'Array "posts"
 
+// Estrapoliamo i dati da mostrare nel DOM in modo tale da rendere i post dinamici in base ai dati che gli passiamo
 
 // Prendiamo il div dentro cui andremo ad appendere tutti i post
 const postContainer = document.querySelector('#container');
@@ -72,12 +72,32 @@ posts.forEach((posts, index) => {
    
 });
 
-// Prendiamo il template costruito nell'html e lo appendiamo tramite template literal per ogni elemento presente nell'Array "posts"
+// Milestone 2 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
+// Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 
-// Estrapoliamo i dati da mostrare nel DOM in modo tale da rendere i post dinamici in base ai dati che gli passiamo
+const likeButton = document.querySelectorAll('.js-like-button')
+const counterLikes = document.querySelectorAll('.js-likes-counter')
+
+likeButton.forEach((liked, index) => {
+    liked.addEventListener('click', function(event) {
+        
+        liked.classList.add('like-button--liked')
+
+        const startingLike = counterLikes[index]
+
+        let increaseLikes = parseInt(startingLike.innerHTML)
+
+        increaseLikes++
+
+        startingLike.innerHTML = increaseLikes++
+
+        event.preventDefault()
+    })
+});
 
 
 // Creiamo una funzione che generi il single post e lo appenda nel DOM
+
 // FUNCTIONS
 
 function generateListOfPostsInDOM (infoPost) {
