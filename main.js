@@ -120,12 +120,18 @@ function generateListOfPostsInDOM (infoPost) {
     const [year, month, day] = dateArray
     const newFormatDate = `${day}/${month}/${year}`
 
+    // 2. Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
+    const nameArray = author.name.split(' ')
+    const [name, lastName] = nameArray
+    const initialNameAuthors = `${name[0]}${lastName[0]}`
+    console.log(initialNameAuthors);
+
     let singlePost = `
     <div class="post">
             <div class="post__header">
                 <div class="post-meta">                    
                     <div class="post-meta__icon">
-                        <img class="profile-pic" src="${author.image}" alt="Phil Mangione">                    
+                        ${imageDefault(author.image, initialNameAuthors)}    
                     </div>
                     <div class="post-meta__data">
                         <div class="post-meta__author">${author.name}</div>
@@ -156,6 +162,16 @@ function generateListOfPostsInDOM (infoPost) {
     postContainer.innerHTML += singlePost
 }
 
+function imageDefault(authorImage, initialLetter) {
+    let profilePicture;
+
+    if (authorImage) {
+        profilePicture = `<img class="profile-pic" src="${authorImage}" alt="Phil Mangione">`
+    } else {
+        profilePicture = `<span class="profile-pic-default">${initialLetter}</span>`
+    }
+    return profilePicture
+}
 
 // 1. Formattare le date in formato italiano (gg/mm/aaaa)
 // 2. Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
