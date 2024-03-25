@@ -67,7 +67,7 @@ const posts = [
 const postContainer = document.querySelector('#container');
 
 // Creiamo un ciclo per appendere tanti post quanti ne sono presenti nell'array "posts"
-posts.forEach((posts, index) => {
+posts.forEach((posts) => {
     generateListOfPostsInDOM (posts)
    
 });
@@ -88,46 +88,14 @@ likeButton.forEach((liked, index) => {
         // Aggiungiamo l'id di tipo numero all'interno dell'array stabilendo che l'id va aggiunto dentro l'array "addedLikes" solo se non è stato aggiunto in precedenza a questa condizione gli uniamo l'incremento del counter e la classe che rende il pulsante colorato di verde
         if (!addedLikes.includes(parseInt(liked.dataset.postid))) {
 
-            addedLikes.push(parseInt(liked.dataset.postid))
-
-            // Aggiungiamo la classe al pulsante per renderlo verde
-            liked.classList.add('like-button--liked')
-
-            // Salviamo in una variabile il div <b> che ha che segna il numero dei like
-            const startingLike = counterLikes[index]
-
-            // Salviamo in una variabile let il numero dentro il tag e lo convertiamo in numero per poter fare l'incremento
-            let increaseLikes = parseInt(startingLike.innerHTML)
-
-            //Ad ogni click incrementiamo il numero dei like partendo dal numero di base
-            increaseLikes++
-
-            // Appendiamo il numero incrementato dentro l'innerHTML e aggiornarlo
-            startingLike.innerHTML = increaseLikes++
-
-             // Evitiamo che ad ogni click sul div "mi piace" riporti la pagina alla vw = 0
-            event.preventDefault()
+            increaseLikes(liked, index, addedLikes)
 
         } else {
 
-            // Aggiunta la variabile "indexOf" per stabilite quale elemento togliere dall'Array successivamente
-            let idToRemove = addedLikes.indexOf(parseInt(liked.dataset.postid))
-            // Con splice possiamo stabilire che l'elemento da rimuovere è dinamico e in base all'indexOf che è stato aggiunto in precedenza e con il secondo numero gli diciamo quanti elementi rimuovere
-            addedLikes.splice(idToRemove, 1)
-
-            liked.classList.remove('like-button--liked')
-
-            const startingLike = counterLikes[index]
-
-            let decresedLikes = parseInt(startingLike.innerHTML)
-
-            decresedLikes--
-
-            startingLike.innerHTML = decresedLikes--
-
-            event.preventDefault()
-
+            decreaseLikes (liked, index, addedLikes)
         }
+        // Evitiamo che ad ogni click sul div "mi piace" riporti la pagina alla vw = 0
+        event.preventDefault()
     })
 });
 
@@ -196,6 +164,43 @@ function imageDefault(authorImage, initialLetter) {
     return profilePicture
 }
 
-// 1. Formattare le date in formato italiano (gg/mm/aaaa)
-// 2. Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
-// 3. Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.
+function increaseLikes(liked, index, arrayForId) {
+
+    arrayForId.push(parseInt(liked.dataset.postid))
+
+    // Aggiungiamo la classe al pulsante per renderlo verde
+    liked.classList.add('like-button--liked')
+
+    // Salviamo in una variabile il div <b> che ha che segna il numero dei like
+    const startingLike = counterLikes[index]
+
+    // Salviamo in una variabile let il numero dentro il tag e lo convertiamo in numero per poter fare l'incremento
+    let increaseLikes = parseInt(startingLike.innerHTML)
+
+    //Ad ogni click incrementiamo il numero dei like partendo dal numero di base
+    increaseLikes++
+
+    // Appendiamo il numero incrementato dentro l'innerHTML e aggiornarlo
+    startingLike.innerHTML = increaseLikes++
+
+     // Evitiamo che ad ogni click sul div "mi piace" riporti la pagina alla vw = 0
+}
+
+function decreaseLikes (liked, index, arrayForId) {
+
+     // Aggiunta la variabile "indexOf" per stabilite quale elemento togliere dall'Array successivamente
+     let idToRemove = arrayForId.indexOf(parseInt(liked.dataset.postid))
+     // Con splice possiamo stabilire che l'elemento da rimuovere è dinamico e in base all'indexOf che è stato aggiunto in precedenza e con il secondo numero gli diciamo quanti elementi rimuovere
+     arrayForId.splice(idToRemove, 1)
+
+     liked.classList.remove('like-button--liked')
+
+     const startingLike = counterLikes[index]
+
+     let decresedLikes = parseInt(startingLike.innerHTML)
+
+     decresedLikes--
+
+     startingLike.innerHTML = decresedLikes--
+
+}
