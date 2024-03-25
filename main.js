@@ -115,6 +115,11 @@ function generateListOfPostsInDOM (infoPost) {
 
     const {id, content, media, author, likes, created} = infoPost
 
+    // 1. Formattare le date in formato italiano (gg/mm/aaaa)
+    const dateArray = created.split('-')
+    const [year, month, day] = dateArray
+    const newFormatDate = `${day}/${month}/${year}`
+
     let singlePost = `
     <div class="post">
             <div class="post__header">
@@ -124,7 +129,7 @@ function generateListOfPostsInDOM (infoPost) {
                     </div>
                     <div class="post-meta__data">
                         <div class="post-meta__author">${author.name}</div>
-                        <div class="post-meta__time">${created}</div>
+                        <div class="post-meta__time">${newFormatDate}</div>
                     </div>                    
                 </div>
             </div>
@@ -150,3 +155,8 @@ function generateListOfPostsInDOM (infoPost) {
     `
     postContainer.innerHTML += singlePost
 }
+
+
+// 1. Formattare le date in formato italiano (gg/mm/aaaa)
+// 2. Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
+// 3. Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.
