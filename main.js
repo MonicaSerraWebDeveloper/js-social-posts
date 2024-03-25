@@ -83,20 +83,24 @@ const addedLikes = []
 likeButton.forEach((liked, index) => {
     liked.addEventListener('click', function(event) {
         
-        console.log(liked.dataset.postid);
-
+        // Aggiungiamo la classe al pulsante per renderlo verde
         liked.classList.add('like-button--liked')
 
+        // Salviamo in una variabile il div <b> che ha che segna il numero dei like
         const startingLike = counterLikes[index]
-
+        // Salviamo in una variabile let il numero dentro il tag e lo convertiamo in numero per poter fare l'incremento
         let increaseLikes = parseInt(startingLike.innerHTML)
 
+        //Ad ogni click incrementiamo il numero dei like partendo dal numero di base
         increaseLikes++
 
+        // Appendiamo il numero incrementato dentro l'innerHTML e aggiornarlo
         startingLike.innerHTML = increaseLikes++
 
+        // Aggiungiamo l'id di tipo numero all'interno dell'array
         addedLikes.push(parseInt(liked.dataset.postid))
         
+        // Evitiamo che ad ogni click sul div "mi piace" riporti la pagina alla vw = 0
         event.preventDefault()
     })
 });
